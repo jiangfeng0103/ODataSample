@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.OData;
+using System.Web.OData.Query;
+using System.Web.OData.Routing;
 using WebApiODataV4.Models;
 
 namespace WebApiODataV4.Controllers
@@ -21,7 +23,7 @@ namespace WebApiODataV4.Controllers
             return _dbContext.Products.Any(p => p.Id == key);
         }
 
-        [EnableQuery]
+        [EnableQuery(PageSize = 3, AllowedQueryOptions = AllowedQueryOptions.All)]
         public IQueryable<Product> Get()
         {
             return _dbContext.Products;
@@ -113,6 +115,43 @@ namespace WebApiODataV4.Controllers
         {
             var result = _dbContext.Products.Where(m => m.Id == key).Select(m => m.Supplier);
             return SingleResult.Create(result);
+        }
+        
+        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        [HttpGet]
+        public IHttpActionResult MostExpensive()
+        {
+            var product = _dbContext.Products.Max(x => x.Price);
+            return Ok(product);
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> Rate([FromODataUri] int key, ODataActionParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var rating = (int)parameters["Rating"];
+            _dbContext.Ratings.Add(new ProductRating
+            {
+                ProductId = key,
+                Rating = rating
+            });
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                if (!Exists(key))
+                    return NotFound();
+                else
+                    throw;
+            }
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
 

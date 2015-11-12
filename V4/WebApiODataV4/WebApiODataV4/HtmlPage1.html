@@ -1,175 +1,195 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <script src="Scripts/jquery-2.1.4.min.js"></script>
     <script>
-    $(function () {
+        $(function () {
 
-        //创建产品信息
-        //addPro();
+            //创建产品信息
+            //addPro();
 
-        //获取产品为1的信息
-        //getPro(1);
+            //获取产品为1的信息
+            //getPro(1);
 
-        //获取产品Id为2的Supplier
-        //getProSupplier(2);
+            //获取产品Id为2的Supplier
+            //getProSupplier(2);
 
-        //更改产品为3的Supplier
-        // updateProSupplier(3);
-        //updateProSupplier2(2);
-        //更改产品
-        //updatePro(3);
+            //更改产品为3的Supplier
+            // updateProSupplier(3);
+            //updateProSupplier2(2);
+            //更改产品
+            //updatePro(3);
 
-        //获取Supplier的产品信息
-        //getSupplierPro(2);
-        
-        //删除
-        //deletePro(3);
-    });
+            //获取Supplier的产品信息
+            //getSupplierPro(2);
 
-    function addPro() {
-        var pro = {
-            Name: "OData Create",
-            Price: 1024,
-            Category: "IT"
-        };
-        //创建产品信息
-        $.ajax({
-            url: "/Odata/Products",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            dataType: "JSON",
-            data: JSON.stringify(pro),
-            success: function (r) {
-                alert(r.Id);
-            },
-            error: function (e) {
-                debugger;
-            }
+            //删除
+            //deletePro(3);
+
+            //评分
+            proRating(1);
         });
-    }
 
-    function getPro(id) {
-        $.ajax({
-            url: "/Odata/Products(" + id + ")",
-            contentType: "application/json; charset=utf-8",
-            type: "get",
-            success: function (r) {
-                debugger;
-            },
-            error: function (r) {
-                alert('error');
-            }
-        });
-    }
+        function addPro() {
+            var pro = {
+                Name: "OData Create",
+                Price: 1024,
+                Category: "IT"
+            };
+            //创建产品信息
+            $.ajax({
+                url: "/Odata/Products",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                data: JSON.stringify(pro),
+                success: function (r) {
+                    alert(r.Id);
+                },
+                error: function (e) {
+                    debugger;
+                }
+            });
+        }
 
-    function getProSupplier(id) {
-        $.ajax({
-            url: "/Odata/Products(" + id + ")/Supplier",
-            contentType: "application/json; charset=utf-8",
-            type: "get",
-            success: function (r) {
-                debugger;
-            },
-            error: function (r) {
-                alert('error');
-            }
-        });
-    }
+        function getPro(id) {
+            $.ajax({
+                url: "/Odata/Products(" + id + ")",
+                contentType: "application/json; charset=utf-8",
+                type: "get",
+                success: function (r) {
+                    debugger;
+                },
+                error: function (r) {
+                    alert('error');
+                }
+            });
+        }
 
-    function updateProSupplier(id) {
+        function getProSupplier(id) {
+            $.ajax({
+                url: "/Odata/Products(" + id + ")/Supplier",
+                contentType: "application/json; charset=utf-8",
+                type: "get",
+                success: function (r) {
+                    debugger;
+                },
+                error: function (r) {
+                    alert('error');
+                }
+            });
+        }
 
-        var pro = {
-            SupplierId: 2
-        };
+        function updateProSupplier(id) {
 
-        //创建产品信息
-        $.ajax({
-            url: "/Odata/Products(" + id + ")",
-            type: "Patch",
-            contentType: "application/json; charset=utf-8",
-            dataType: "JSON",
-            data: JSON.stringify(pro),
-            success: function (r) {
-                debugger;
-            },
-            error: function (e) {
-                debugger;
-            }
-        });
-    }
+            var pro = {
+                SupplierId: 2
+            };
+
+            //创建产品信息
+            $.ajax({
+                url: "/Odata/Products(" + id + ")",
+                type: "Patch",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                data: JSON.stringify(pro),
+                success: function (r) {
+                    debugger;
+                },
+                error: function (e) {
+                    debugger;
+                }
+            });
+        }
 
 
-    function updateProSupplier2(id) {
+        function updateProSupplier2(id) {
 
-        //创建产品信息
-        $.ajax({
-            url: "/Odata/Products(" + id + ")/Supplier/$ref?$id=/Suppliers(1)",
-            type: "Put",
-            contentType: "application/json; charset=utf-8",
-            dataType: "JSON",
-            success: function (r) {
-                debugger;
-            },
-            error: function (e) {
-                debugger;
-            }
-        });
-    }
+            //创建产品信息
+            $.ajax({
+                url: "/Odata/Products(" + id + ")/Supplier/$ref?$id=/Suppliers(1)",
+                type: "Put",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (r) {
+                    debugger;
+                },
+                error: function (e) {
+                    debugger;
+                }
+            });
+        }
 
-    function updatePro(id) {
+        function updatePro(id) {
 
-        var pro = {
-            SupplierId: 2,
-            Name: "Put OData Create",
-            Id: 3
-        };
+            var pro = {
+                SupplierId: 2,
+                Name: "Put OData Create",
+                Id: 3
+            };
 
-        //创建产品信息
-        $.ajax({
-            url: "/Odata/Products(" + id + ")",
-            type: "Put",
-            contentType: "application/json; charset=utf-8",
-            dataType: "JSON",
-            data: JSON.stringify(pro),
-            success: function (r) {
-                debugger;
-            },
-            error: function (e) {
-                debugger;
-            }
-        });
-    }
+            //创建产品信息
+            $.ajax({
+                url: "/Odata/Products(" + id + ")",
+                type: "Put",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                data: JSON.stringify(pro),
+                success: function (r) {
+                    debugger;
+                },
+                error: function (e) {
+                    debugger;
+                }
+            });
+        }
 
-    function getSupplierPro(id) {
-        $.ajax({
-            url: "/Odata/Suppliers(" + id + ")/Products",
-            contentType: "application/json; charset=utf-8",
-            type: "get",
-            success: function (r) {
-                debugger;
-            },
-            error: function (r) {
-                alert('error');
-            }
-        });
-    }
+        function getSupplierPro(id) {
+            $.ajax({
+                url: "/Odata/Suppliers(" + id + ")/Products",
+                contentType: "application/json; charset=utf-8",
+                type: "get",
+                success: function (r) {
+                    debugger;
+                },
+                error: function (r) {
+                    alert('error');
+                }
+            });
+        }
 
-    function deletePro(id) {
-        $.ajax({
-            url: "/Odata/Products(" + id + ")",
-            contentType: "application/json; charset=utf-8",
-            type: "Delete",
-            success: function (r) {
-                debugger;
-            },
-            error: function (r) {
-                debugger;
-            }
-        });
-    }
+        function deletePro(id) {
+            $.ajax({
+                url: "/Odata/Products(" + id + ")",
+                contentType: "application/json; charset=utf-8",
+                type: "Delete",
+                success: function (r) {
+                    debugger;
+                },
+                error: function (r) {
+                    debugger;
+                }
+            });
+        }
+
+        //产品评分
+        function proRating(id) {
+            $.ajax({
+                url: "/Odata/Products(" + id + ")/ProductService.Rate",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                data: JSON.stringify({ Rating: 5 }),
+                success: function (r) {
+                    debugger;
+                },
+                error: function (e) {
+                    debugger;
+                }
+            });
+        }
     </script>
 
 </head>

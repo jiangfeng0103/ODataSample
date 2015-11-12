@@ -34,6 +34,27 @@ namespace WebApiODataV4
             var builder = new ODataConventionModelBuilder();
             builder.EntitySet<Product>("Products");
             builder.EntitySet<Supplier>("Suppliers");
+
+            //配置一个函数
+            //builder.EntitySet<Product>("Products").EntityType.Collection.Function("MostExpensive").Returns<double>(); //获取最贵产品价格的路由设置 
+
+
+            //配置一个Action
+            //builder.EntitySet<Product>("Products").EntityType.Action("Rate").Parameter<int>("Rating");
+
+            #region 服务的另一种配置方法
+            //http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/odata-v4/odata-actions-and-functions
+            builder.Namespace = "ProductService";
+            builder.EntityType<Product>().Collection
+                .Function("MostExpensive")  //函数路由
+                .Returns<double>();
+
+            builder.Namespace = "ProductService";
+            builder.EntityType<Product>()
+                .Action("Rate")  //Action路由
+                .Parameter<int>("Rating");
+            #endregion
+
             return builder.GetEdmModel();
         }
     }

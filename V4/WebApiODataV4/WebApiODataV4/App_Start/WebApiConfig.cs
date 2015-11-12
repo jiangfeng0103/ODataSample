@@ -23,7 +23,9 @@ namespace WebApiODataV4
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            var route = config.MapODataServiceRoute("odata", "Odata", model: GetModel());
+
+            //构建路由服务
+            var route = config.MapODataServiceRoute("odata", "Odata", model: GetModel()); //第二个参数Odata是前缀
         }
 
 

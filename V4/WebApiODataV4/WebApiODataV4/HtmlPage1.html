@@ -11,7 +11,7 @@
         //addPro();
 
         //获取产品为1的信息
-        getPro(1);
+        //getPro(1);
 
         //获取产品Id为2的Supplier
         //getProSupplier(2);
@@ -24,6 +24,9 @@
 
         //获取Supplier的产品信息
         //getSupplierPro(2);
+        
+        //删除
+        //deletePro(3);
     });
 
     function addPro() {
@@ -150,6 +153,20 @@
             },
             error: function (r) {
                 alert('error');
+            }
+        });
+    }
+
+    function deletePro(id) {
+        $.ajax({
+            url: "/Odata/Products(" + id + ")",
+            contentType: "application/json; charset=utf-8",
+            type: "Delete",
+            success: function (r) {
+                debugger;
+            },
+            error: function (r) {
+                debugger;
             }
         });
     }
